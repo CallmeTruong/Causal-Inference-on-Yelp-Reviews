@@ -29,6 +29,14 @@ $$Y_i = \theta \cdot T_i + g(X_i) + \varepsilon_i$$
 
 **Causal identification assumption:** Conditional unconfoundedness — all confounders affecting both T and Y are observed and included in X.
 
+### Handling Textual Confounding
+
+Review text is an unstructured source of confounding: a reviewer's writing tone simultaneously shapes the star rating they give, the length they write, and how readers respond with votes. Leaving text uncontrolled conflates these signals with the treatment effects of interest.
+
+This workflow demonstrates a general approach to this problem: **use a model to extract structured signals from unstructured text, then include those signals as explicit confounders in the causal estimator.** Here, VADER sentiment analysis converts raw review text into three numeric scores (`compound`, `pos`, `neg`) that proxy for emotional tone. These scores enter the DML confounder set X, allowing the nuisance models to partial out text-driven variation from both treatment and outcome before the causal coefficient is estimated.
+
+The same principle extends naturally to richer representations — sentence embeddings, topic models, or LLM-based quality scores — making this a scalable pattern for causal inference on text-heavy observational data.
+
 ---
 
 ## Data
